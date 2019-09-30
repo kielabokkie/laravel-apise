@@ -1,0 +1,28 @@
+{
+    "name": "kielabokkie/laravel-guzzle-api-service",
+    "description": "A base class for interacting with external APIs via Guzzle",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kielabokkie",
+            "email": "kielabokkie@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kielabokkie\\GuzzleApiService\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kielabokkie\\GuzzleApiService\\Tests\\": "tests"
+        }
+    }
+}
