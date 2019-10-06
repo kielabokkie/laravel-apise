@@ -3,7 +3,6 @@
 namespace Kielabokkie\GuzzleApiService;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
 
 class ApiClient
 {
@@ -35,6 +34,16 @@ class ApiClient
     }
 
     /**
+     * Array of default headers.
+     *
+     * @return array
+     */
+    protected function defaultHeaders()
+    {
+        return [];
+    }
+
+    /**
      * Set the Guzzle client.
      *
      * @param Client $client
@@ -42,20 +51,67 @@ class ApiClient
     protected function setClient(Client $client = null)
     {
         if ($client === null) {
-            $stack = HandlerStack::create();
-
-            // Push Guzzle middlewares on to the handler stack
-            foreach ($this->middelwares() as $middleware) {
-                $stack->push($middleware);
-            }
-
             $client = new Client([
                 'base_uri' => $this->baseUrl,
-                'handler' => $stack,
             ]);
         }
 
+        $handlerStack = $client->getConfig('handler');
+
+        // Push Guzzle middlewares on to the handler stack
+        foreach ($this->middelwares() as $middleware) {
+            $handlerStack->push($middleware);
+        }
+
         $this->client = $client;
+    }
+
+    /**
+     * Shorthand function for GET requests.
+     *
+     * @param string $uri
+     * @param array $options
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function get($uri, array $options = [])
+    {
+        return $this->request('GET', $uri, $options);
+    }
+
+    /**
+     * Shorthand function for POST requests.
+     *
+     * @param string $uri
+     * @param array $options
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function post($uri, array $options = [])
+    {
+        return $this->request('POST', $uri, $options);
+    }
+
+    /**
+     * Shorthand function for PUT requests.
+     *
+     * @param string $uri
+     * @param array $options
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function put($uri, array $options = [])
+    {
+        return $this->request('PUT', $uri, $options);
+    }
+
+    /**
+     * Shorthand function for DELETE requests.
+     *
+     * @param string $uri
+     * @param array $options
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function delete($uri, array $options = [])
+    {
+        return $this->request('DELETE', $uri, $options);
     }
 
     /**
@@ -70,19 +126,9 @@ class ApiClient
     {
         $uri = $this->addDefaultQueryParams($uri);
 
-        return $this->client->request($method, $uri, $options);
-    }
+        $options = array_merge($options, $this->defaultHeaders());
 
-    /**
-     * Shorthand function for GET requests.
-     *
-     * @param string $uri
-     * @param array $options
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function get($uri, array $options = [])
-    {
-        return $this->request('GET', $uri, $options);
+        return $this->client->request($method, $uri, $options);
     }
 
     /**
