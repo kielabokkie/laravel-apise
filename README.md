@@ -45,9 +45,22 @@ public function yourGetRequest()
 }
 ```
 
+### Adding default headers
+
+APIs often require you to add a specific header to every request, for example for authorisation purposes. Instead of having to pass that as an option with every request you can add the following function at the top of your service class:
+
+```php
+protected function defaultHeaders()
+{
+    return [
+        'Authorization' => 'Bearer abcdef123456',
+    ];
+}
+```
+
 ### Adding default query parameters
 
-Sometimes you'll have APIs that require you to add a default GET parameter to pass an API token for example. Instead of having to pass that as an option with every request you can add the following function at the top of your service class:
+You can add default query parameters to every request automatically in a similar way:
 
 ```php
 protected function defaultQueryParams()
@@ -58,4 +71,4 @@ protected function defaultQueryParams()
 }
 ```
 
-This will automatically append the token as a get parameter like so: `https://httpbin.org?token=your-token`.
+This will automatically append the token as a get parameter like so: `https://httpbin.org/get?token=your-token`.
