@@ -10,7 +10,7 @@ Install the package via composer:
 
 ## Setup
 
-To make use the base API Client class you'll need to add the required `$baseUrl` to set the base URL of your API. You'll also have to call the `$this->setClient();` function in the constructor of your service class.
+To make use of the base API Client class you'll need to add the required `$baseUrl` to set the base URL of your API. You'll also have to call the `$this->setClient();` function in the constructor of your service class.
 
 ```php
 <?php
@@ -34,7 +34,7 @@ class HttpBinService extends ApiClient
 
 ### Get request
 
-Now to do a GET request you can simply do the following:
+Now to execute a `GET` request you can simply do the following:
 
 ```php
 public function yourGetRequest()
@@ -44,6 +44,8 @@ public function yourGetRequest()
     return json_decode($response->getBody()->getContents());
 }
 ```
+
+This is pretty basic stuff and the same as you would normally do a `GET` request with Guzzle.
 
 ### Adding default headers
 
