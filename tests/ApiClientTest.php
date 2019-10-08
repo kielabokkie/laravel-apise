@@ -63,7 +63,7 @@ class ApiClientTest extends TestCase
         $api->getRequest('/get');
 
         // Check that the default header had been added to the request
-        $this->assertTrue(in_array('X-Foo', $api->interceptedHeaders));
+        $this->assertTrue(in_array('X-Foo', array_keys($api->interceptedHeaders)));
     }
 
     /** @test */

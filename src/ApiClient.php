@@ -125,10 +125,28 @@ class ApiClient
     protected function request($method, $uri, array $options = [])
     {
         $uri = $this->addDefaultQueryParams($uri);
-
-        $options = array_merge($options, $this->defaultHeaders());
+        $options = $this->addHeaders($options);
 
         return $this->client->request($method, $uri, $options);
+    }
+
+    /**
+     * Add the default headers to the headers specified in the request.
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function addHeaders(array $options)
+    {
+        if (isset($options['headers']) === false) {
+            $options['headers'] = $this->defaultHeaders();
+
+            return $options;
+        }
+
+        $options = array_merge($this->defaultHeaders(), $options['headers']);
+
+        return $options;
     }
 
     /**

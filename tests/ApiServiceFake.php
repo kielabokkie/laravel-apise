@@ -20,7 +20,7 @@ class ApiServiceFake extends ApiClient
      *
      * @var array
      */
-    public $interceptedHeaders;
+    public $interceptedHeaders = [];
 
     /**
      * The request method.
@@ -38,7 +38,7 @@ class ApiServiceFake extends ApiClient
     {
         $tapMiddleware = Middleware::tap(function ($request, $options) {
             $this->interceptedMethod = $request->getMethod();
-            $this->interceptedHeaders = array_keys($options);
+            $this->interceptedHeaders = $request->getHeaders();
         });
 
         return [$tapMiddleware];
