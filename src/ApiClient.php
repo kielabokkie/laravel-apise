@@ -2,7 +2,11 @@
 
 namespace Kielabokkie\GuzzleApiService;
 
+use Concat\Http\Middleware\Logger as GuzzleLogger;
 use GuzzleHttp\Client;
+use GuzzleHttp\MessageFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 
 class ApiClient
 {
@@ -21,6 +25,28 @@ class ApiClient
     protected function middelwares()
     {
         return [];
+    }
+
+    protected function defaultMiddlewares()
+    {
+        $middlewares = collect();
+
+        if (config('api-service.logging_enabled') === true) {
+            $logger = new Logger('api');
+            $logger->pushHandler(
+                new StreamHandler(storage_path('logs/api.log'), Logger::DEBUG)
+            );
+
+            $formatter = new MessageFormatter(
+                '{req_header_User-Agent} - "{method} {target} HTTP/{version}" - {req_body} - {code} - {res_body}'
+            );
+
+            $loggerMiddleware = new GuzzleLogger($logger, $formatter);
+
+            $middlewares->push($loggerMiddleware);
+        }
+
+        return $middlewares->toArray();
     }
 
     /**
@@ -56,10 +82,11 @@ class ApiClient
             ]);
         }
 
-        $handlerStack = $client->getConfig('handler');
+        $middlewares = array_merge($this->defaultMiddlewares(), $this->middelwares());
 
         // Push Guzzle middlewares on to the handler stack
-        foreach ($this->middelwares() as $middleware) {
+        foreach ($middlewares as $middleware) {
+            $handlerStack = $client->getConfig('handler');
             $handlerStack->push($middleware);
         }
 

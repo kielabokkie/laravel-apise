@@ -8,7 +8,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Kielabokkie\GuzzleApiService\ApiClient;
 use Kielabokkie\GuzzleApiService\Tests\ApiServiceFake;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\TestCase;
 
 /**
  * phpcs:disable PSR1.Methods.CamelCapsMethodName
@@ -18,8 +18,10 @@ class ApiClientTest extends TestCase
     /** @var ApiServiceFake $api */
     private $api;
 
-    protected function setUp()
+    protected function setUp():void
     {
+        parent::setUp();
+
         $this->api = new ApiServiceFake;
     }
 

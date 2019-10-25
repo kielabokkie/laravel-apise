@@ -8,6 +8,25 @@ Install the package via composer:
 
     composer require kielabokkie/laravel-guzzle-api-service
 
+## Package configuration
+
+Publish the config file by running the following command:
+
+```bash
+php artisan vendor:publish --provider="Kielabokkie\GuzzleApiService\GuzzleApiServiceProvider"
+```
+
+This is the contents of the file that will be published at `config/api-service.php`:
+
+```php
+return [
+    /**
+     * Enable logging of request and responses to storage/logs/api-service.log
+     */
+    'logging_enabled' => env('API_SERVICE_LOGGING_ENABLED', false),
+];
+```
+
 ## Setup
 
 To make use of the base API Client class you'll need to add the required `$baseUrl` to set the base URL of your API. You'll also have to call the `$this->setClient();` function in the constructor of your service class.
