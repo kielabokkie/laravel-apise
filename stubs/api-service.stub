@@ -1,0 +1,54 @@
+<?php
+
+namespace DummyNamespace;
+
+use GuzzleHttp\Client;
+use Kielabokkie\GuzzleApiService\ApiClient;
+
+class DummyClass extends ApiClient
+{
+    /**
+     * Base URL of the API.
+     *
+     * @var string
+     */
+    protected $baseUrl = '';
+
+    /**
+     * Array of middlewares to be pushed on to the handler stack.
+     *
+     * @return array
+     */
+    protected function middelwares()
+    {
+        return [];
+    }
+
+    /**
+     * Array of default headers.
+     *
+     * @return array
+     */
+    protected function defaultHeaders()
+    {
+        return [];
+    }
+
+    /**
+     * Array of default query parameters.
+     *
+     * @return array
+     */
+    protected function defaultQueryParams()
+    {
+        return [];
+    }
+
+    /**
+     * Create a DummyClass instance.
+     */
+    public function __construct(Client $client = null)
+    {
+        $this->setClient($client);
+    }
+}

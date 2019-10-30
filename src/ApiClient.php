@@ -34,7 +34,7 @@ class ApiClient
         if (config('api-service.logging_enabled') === true) {
             $logger = new Logger('api');
             $logger->pushHandler(
-                new StreamHandler(storage_path('logs/api.log'), Logger::DEBUG)
+                new StreamHandler(storage_path('logs/api-service.log'), Logger::DEBUG)
             );
 
             $formatter = new MessageFormatter(

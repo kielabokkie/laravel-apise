@@ -20,10 +20,17 @@ This is the contents of the file that will be published at `config/api-service.p
 
 ```php
 return [
-    /**
+    /*
      * Enable logging of request and responses to storage/logs/api-service.log
      */
     'logging_enabled' => env('API_SERVICE_LOGGING_ENABLED', false),
+
+    /*
+     * The namespace where your API Service classes are created under.
+     * This will be appended to your base namespace. So the config below
+     * will create a class under App\Support\Services.
+     */
+    'namespace' => 'Support\Services'
 ];
 ```
 
@@ -48,6 +55,16 @@ class HttpBinService extends ApiClient
     }
 }
 ```
+
+To make it easy to get started you can use the following command to scaffold your API Service class:
+
+```bash
+php artisan make:api-service HttpBinService
+```
+
+This will create a class called `HttpBinService.php` in the `app/Support/Services` folder. All you have to do is set your `$baseUrl` and you are good to go.
+
+Note: If you would like your classes to be placed somewhere else you can overwrite the `namespace` variable in the `api-service.php` config file.
 
 ## Usage
 

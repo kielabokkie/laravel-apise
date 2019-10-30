@@ -28,5 +28,14 @@ class GuzzleApiServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/api-service.php', 'api-service');
+
+        $this->registerCommands();
+    }
+
+    protected function registerCommands()
+    {
+        $this->commands([
+            ApiServiceMakeCommand::class,
+        ]);
     }
 }
