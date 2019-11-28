@@ -198,6 +198,8 @@ class ApiClient
             $queryParams = $defaultParams;
         }
 
-        return sprintf('%s?%s', $path, $queryParams);
+        $fullUri = sprintf('%s?%s', $path, $queryParams);
+
+        return rtrim($fullUri, '?');
     }
 }
