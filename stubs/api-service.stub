@@ -15,6 +15,13 @@ class DummyClass extends ApiseClient
     protected $baseUrl = '';
 
     /**
+     * Identifier for this API.
+     *
+     * @var string
+     */
+    protected $tag = '';
+
+    /**
      * Array of middlewares to be pushed on to the handler stack.
      *
      * @return array

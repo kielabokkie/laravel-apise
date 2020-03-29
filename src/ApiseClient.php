@@ -231,6 +231,7 @@ class ApiseClient
                     'uri' => $request->getUri(),
                     'request_headers' => json_encode($request->getHeaders()),
                     'request_body' => $request->getBody(),
+                    'tag' => empty($this->tag) === false ? $this->tag : null,
                 ]);
             }
         );
