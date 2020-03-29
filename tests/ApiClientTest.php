@@ -1,20 +1,22 @@
 <?php
 
-namespace Kielabokkie\Apise\Test;
+namespace Kielabokkie\Apise\Tests;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Kielabokkie\Apise\ApiseClient;
 use Kielabokkie\Apise\Tests\ApiServiceFake;
-use Orchestra\Testbench\TestCase;
 
 /**
  * phpcs:disable PSR1.Methods.CamelCapsMethodName
  */
 class ApiseClientTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @var ApiServiceFake $api */
     private $api;
 

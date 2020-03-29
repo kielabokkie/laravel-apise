@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Laravel Guzzle API Service">
+        <testsuite name="Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
@@ -20,9 +20,6 @@
         </whitelist>
     </filter>
     <logging>
-        <log type="junit" target="build/report.junit.xml"/>
-        <log type="coverage-html" target="build/coverage"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="coverage-text" target="php://stdout"/>
     </logging>
 </phpunit>
