@@ -2,7 +2,9 @@
 
 namespace Kielabokkie\GuzzleApiService;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Kielabokkie\GuzzleApiService\Console\ApiServiceMakeCommand;
 
 class GuzzleApiServiceProvider extends ServiceProvider
 {
@@ -29,13 +31,53 @@ class GuzzleApiServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/api-service.php', 'api-service');
 
+        $this->registerRoutes();
+        $this->registerMigrations();
         $this->registerCommands();
+        $this->loadViews();
     }
 
-    protected function registerCommands()
+    /**
+     * Register the package routes.
+     *
+     * @return void
+     */
+    private function registerRoutes()
+    {
+        Route::group($this->routeConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
+        });
+    }
+
+    /**
+     * Get the route group configuration array.
+     *
+     * @return array
+     */
+    private function routeConfiguration()
+    {
+        return [
+            'namespace' => 'Kielabokkie\GuzzleApiService\Http\Controllers',
+            'prefix' => config('api-service.path', 'api-logger'),
+        ];
+    }
+
+    private function registerMigrations()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        }
+    }
+
+    private function registerCommands()
     {
         $this->commands([
             ApiServiceMakeCommand::class,
         ]);
+    }
+
+    private function loadViews()
+    {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'api-service');
     }
 }

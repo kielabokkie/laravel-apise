@@ -11,7 +11,8 @@
     ],
     "require": {
         "guzzlehttp/guzzle": "^6.3",
-        "rtheunissen/guzzle-log-middleware": "^0.4.2"
+        "rtheunissen/guzzle-log-middleware": "^0.4.2",
+        "ramsey/uuid": "^3.9"
     },
     "require-dev": {
         "laravel/framework": "~5.8.0|^6.0|^7.0",

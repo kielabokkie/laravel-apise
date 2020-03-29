@@ -2,11 +2,11 @@
 
 namespace Kielabokkie\GuzzleApiService;
 
-use Concat\Http\Middleware\Logger as GuzzleLogger;
 use GuzzleHttp\Client;
-use GuzzleHttp\MessageFormatter;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
+use GuzzleHttp\Middleware;
+use Kielabokkie\GuzzleApiService\Models\ApiLog;
+use Psr\Http\Message\RequestInterface;
+use Ramsey\Uuid\Uuid;
 
 class ApiClient
 {
@@ -27,23 +27,17 @@ class ApiClient
         return [];
     }
 
+    /**
+     * The Guzzle Middlewares that are always loaded for the package.
+     *
+     * @return array
+     */
     protected function defaultMiddlewares()
     {
         $middlewares = collect();
 
         if (config('api-service.logging_enabled') === true) {
-            $logger = new Logger('api');
-            $logger->pushHandler(
-                new StreamHandler(storage_path('logs/api-service.log'), Logger::DEBUG)
-            );
-
-            $formatter = new MessageFormatter(
-                '{req_header_User-Agent} - "{method} {target} HTTP/{version}" - {req_body} - {code} - {res_body}'
-            );
-
-            $loggerMiddleware = new GuzzleLogger($logger, $formatter);
-
-            $middlewares->push($loggerMiddleware);
+            $middlewares->push($this->dbLoggerMiddleware());
         }
 
         return $middlewares->toArray();
@@ -154,7 +148,25 @@ class ApiClient
         $uri = $this->addDefaultQueryParams($uri);
         $options = $this->addHeaders($options);
 
-        return $this->client->request($method, $uri, $options);
+        // Tag the request with a unique id so we can match it with the response
+        $options['headers']['X-Api-LogID'] = Uuid::uuid4()->toString();
+
+        $response = $this->client->request($method, $uri, $options);
+
+        $log = ApiLog::where('correlation_id', $options['headers']['X-Api-LogID']);
+
+        // Update the log with response data
+        $log->update([
+            'status_code' => $response->getStatusCode(),
+            'reason_phrase' => $response->getReasonPhrase(),
+            'response_headers' => json_encode($response->getHeaders()),
+            'response_body' => $response->getBody()->getContents(),
+        ]);
+
+        // Rewind the response body or else it will be empty
+        $response->getBody()->rewind();
+
+        return $response;
     }
 
     /**
@@ -201,5 +213,28 @@ class ApiClient
         $fullUri = sprintf('%s?%s', $path, $queryParams);
 
         return rtrim($fullUri, '?');
+    }
+
+    /**
+     * Use the Guzzle middleware to save requests to the database.
+     *
+     * @return \GuzzleHttp\Middleware
+     */
+    private function dbLoggerMiddleware()
+    {
+        $tapMiddleware = Middleware::tap(
+            function (RequestInterface $request, $options) {
+                ApiLog::create([
+                    'correlation_id' => $request->getHeader('X-Api-LogID')[0],
+                    'method' => $request->getMethod(),
+                    'protocol_version' => $request->getProtocolVersion(),
+                    'uri' => $request->getUri(),
+                    'request_headers' => json_encode($request->getHeaders()),
+                    'request_body' => $request->getBody(),
+                ]);
+            }
+        );
+
+        return $tapMiddleware;
     }
 }

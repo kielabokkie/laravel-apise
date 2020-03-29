@@ -1,6 +1,6 @@
 <?php
 
-namespace Kielabokkie\GuzzleApiService;
+namespace Kielabokkie\GuzzleApiService\Console;
 
 use Illuminate\Console\GeneratorCommand;
 
