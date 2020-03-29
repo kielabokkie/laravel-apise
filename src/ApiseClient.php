@@ -1,14 +1,14 @@
 <?php
 
-namespace Kielabokkie\GuzzleApiService;
+namespace Kielabokkie\Apise;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Middleware;
-use Kielabokkie\GuzzleApiService\Models\ApiLog;
+use Kielabokkie\Apise\Models\ApiLog;
 use Psr\Http\Message\RequestInterface;
 use Ramsey\Uuid\Uuid;
 
-class ApiClient
+class ApiseClient
 {
     /**
      * Http client.

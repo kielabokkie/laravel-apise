@@ -1,21 +1,21 @@
 <?php
 
-namespace Kielabokkie\GuzzleApiService\Http\Controllers;
+namespace Kielabokkie\Apise\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Kielabokkie\GuzzleApiService\Models\ApiLog;
+use Kielabokkie\Apise\Models\ApiLog;
 
 class HomeController extends Controller
 {
     /**
-     * Display the Telescope view.
+     * Display the Apise view.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $logs = ApiLog::all();
+        $logs = ApiLog::all()->sortByDesc('id');
 
-        return view('api-service::layout', compact('logs'));
+        return view('apise::layout', compact('logs'));
     }
 }

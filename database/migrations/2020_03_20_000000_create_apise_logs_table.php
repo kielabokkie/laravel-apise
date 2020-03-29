@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateApiLogsTable extends Migration
+class CreateApiseLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateApiLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('api_logs', function (Blueprint $table) {
+        Schema::create('apise_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('correlation_id')->unique()->index();
             $table->string('method', 10);
@@ -36,6 +36,6 @@ class CreateApiLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('api_logs');
+        Schema::dropIfExists('apise_logs');
     }
 }

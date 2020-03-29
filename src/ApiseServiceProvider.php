@@ -1,12 +1,12 @@
 <?php
 
-namespace Kielabokkie\GuzzleApiService;
+namespace Kielabokkie\Apise;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Kielabokkie\GuzzleApiService\Console\ApiServiceMakeCommand;
+use Kielabokkie\Apise\Console\ApiServiceMakeCommand;
 
-class GuzzleApiServiceProvider extends ServiceProvider
+class ApiseServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any package services.
@@ -17,7 +17,7 @@ class GuzzleApiServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/api-service.php' => config_path('api-service.php'),
+                __DIR__.'/../config/apise.php' => config_path('apise.php'),
             ], 'config');
         }
     }
@@ -29,7 +29,7 @@ class GuzzleApiServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/api-service.php', 'api-service');
+        $this->mergeConfigFrom(__DIR__.'/../config/apise.php', 'apise');
 
         $this->registerRoutes();
         $this->registerMigrations();
@@ -57,8 +57,8 @@ class GuzzleApiServiceProvider extends ServiceProvider
     private function routeConfiguration()
     {
         return [
-            'namespace' => 'Kielabokkie\GuzzleApiService\Http\Controllers',
-            'prefix' => config('api-service.path', 'api-logger'),
+            'namespace' => 'Kielabokkie\Apise\Http\Controllers',
+            'prefix' => config('apise.path', 'apise'),
         ];
     }
 
@@ -78,6 +78,6 @@ class GuzzleApiServiceProvider extends ServiceProvider
 
     private function loadViews()
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'api-service');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'apise');
     }
 }

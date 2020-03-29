@@ -1,5 +1,5 @@
 {
-    "name": "kielabokkie/laravel-guzzle-api-service",
+    "name": "kielabokkie/laravel-apise",
     "description": "A base class for interacting with external APIs via Guzzle",
     "type": "library",
     "license": "MIT",
@@ -22,18 +22,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Kielabokkie\\GuzzleApiService\\": "src"
+            "Kielabokkie\\Apise\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Kielabokkie\\GuzzleApiService\\Tests\\": "tests"
+            "Kielabokkie\\Apise\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Kielabokkie\\GuzzleApiService\\GuzzleApiServiceProvider"
+                "Kielabokkie\\Apise\\ApiseServiceProvider"
             ]
         }
     }

@@ -1,36 +1,41 @@
-# Laravel Guzzle API Service
+# Apise for Laravel
 
-**Note: This package is still being developed and is not production ready. Use at your own risk!**
+The Apise package for Laravel can be used to simplify creating an API service for integrating with an external API.
 
 ## Installation
 
 Install the package via composer:
 
-    composer require kielabokkie/laravel-guzzle-api-service
+    composer require kielabokkie/laravel-apise
 
 ## Package configuration
 
 Publish the config file by running the following command:
 
 ```bash
-php artisan vendor:publish --provider="Kielabokkie\GuzzleApiService\GuzzleApiServiceProvider"
+php artisan vendor:publish --provider="Kielabokkie\Apise\ApiseServiceProvider"
 ```
 
-This is the contents of the file that will be published at `config/api-service.php`:
+This is the contents of the file that will be published at `config/apise.php`:
 
 ```php
 return [
-    /*
-     * Enable logging of request and responses to storage/logs/api-service.log
+    /**
+     * Enable logging of requests and responses
      */
-    'logging_enabled' => env('API_SERVICE_LOGGING_ENABLED', false),
+    'logging_enabled' => env('APISE_LOGGING_ENABLED', false),
 
-    /*
+    /**
+     * This is the URI path where the UI will be accessible from
+     */
+    'path' => env('APISE_PATH', 'apise'),
+
+    /**
      * The namespace where your API Service classes are created under.
      * This will be appended to your base namespace. So the config below
      * will create a class under App\Support\Services.
      */
-    'namespace' => 'Support\Services'
+    'namespace' => 'Support\Services',
 ];
 ```
 
@@ -43,9 +48,9 @@ To make use of the base API Client class you'll need to add the required `$baseU
 
 namespace App\Support\Services;
 
-use Kielabokkie\GuzzleApiService\ApiClient;
+use Kielabokkie\Apise\ApiseClient;
 
-class HttpBinService extends ApiClient
+class HttpBinService extends ApiseClient
 {
     protected $baseUrl = 'https://httpbin.org';
 
@@ -64,7 +69,7 @@ php artisan make:api-service HttpBinService
 
 This will create a class called `HttpBinService.php` in the `app/Support/Services` folder. All you have to do is set your `$baseUrl` and you are good to go.
 
-Note: If you would like your classes to be placed somewhere else you can overwrite the `namespace` variable in the `api-service.php` config file.
+Note: If you would like your classes to be placed somewhere else you can overwrite the `namespace` variable in the `apise.php` config file.
 
 ## Usage
 

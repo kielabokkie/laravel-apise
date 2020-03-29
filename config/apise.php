@@ -1,17 +1,17 @@
 <?php
 
 return [
-    /*
-     * Enable logging of request and responses to storage/logs/api-service.log
+    /**
+     * Enable logging of requests and responses
      */
-    'logging_enabled' => env('API_SERVICE_LOGGING_ENABLED', false),
+    'logging_enabled' => env('APISE_LOGGING_ENABLED', false),
 
     /**
      * This is the URI path where the UI will be accessible from
      */
-    'path' => env('API_SERVICE_PATH', 'api-service'),
+    'path' => env('APISE_PATH', 'apise'),
 
-    /*
+    /**
      * The namespace where your API Service classes are created under.
      * This will be appended to your base namespace. So the config below
      * will create a class under App\Support\Services.

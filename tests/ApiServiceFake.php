@@ -1,12 +1,12 @@
 <?php
 
-namespace Kielabokkie\GuzzleApiService\Tests;
+namespace Kielabokkie\Apise\Tests;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Middleware;
-use Kielabokkie\GuzzleApiService\ApiClient;
+use Kielabokkie\Apise\ApiseClient;
 
-class ApiServiceFake extends ApiClient
+class ApiServiceFake extends ApiseClient
 {
     /**
      * Base URL of the API.

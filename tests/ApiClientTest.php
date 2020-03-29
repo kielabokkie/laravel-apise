@@ -1,19 +1,19 @@
 <?php
 
-namespace Kielabokkie\GuzzleApiService\Test;
+namespace Kielabokkie\Apise\Test;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Kielabokkie\GuzzleApiService\ApiClient;
-use Kielabokkie\GuzzleApiService\Tests\ApiServiceFake;
+use Kielabokkie\Apise\ApiseClient;
+use Kielabokkie\Apise\Tests\ApiServiceFake;
 use Orchestra\Testbench\TestCase;
 
 /**
  * phpcs:disable PSR1.Methods.CamelCapsMethodName
  */
-class ApiClientTest extends TestCase
+class ApiseClientTest extends TestCase
 {
     /** @var ApiServiceFake $api */
     private $api;
@@ -28,7 +28,7 @@ class ApiClientTest extends TestCase
     /** @test */
     public function service_is_instance_of_api_client()
     {
-        $this->assertInstanceOf(ApiClient::class, $this->api);
+        $this->assertInstanceOf(ApiseClient::class, $this->api);
     }
 
     /** @test */

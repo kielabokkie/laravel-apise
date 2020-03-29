@@ -1,6 +1,6 @@
 <?php
 
-namespace Kielabokkie\GuzzleApiService\Models;
+namespace Kielabokkie\Apise\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +11,7 @@ class ApiLog extends Model
      *
      * @var string
      */
-    protected $table = 'api_logs';
+    protected $table = 'apise_logs';
 
     /**
      * The name of the "updated at" column.

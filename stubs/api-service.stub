@@ -3,9 +3,9 @@
 namespace DummyNamespace;
 
 use GuzzleHttp\Client;
-use Kielabokkie\GuzzleApiService\ApiClient;
+use Kielabokkie\Apise\ApiseClient;
 
-class DummyClass extends ApiClient
+class DummyClass extends ApiseClient
 {
     /**
      * Base URL of the API.
