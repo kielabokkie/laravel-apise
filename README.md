@@ -115,3 +115,13 @@ protected function defaultQueryParams()
 ```
 
 This will automatically append the token as a get parameter like so: `https://httpbin.org/get?token=your-token`.
+
+## Development
+
+When working on the view that shows the logs you can run the Webpack dev server:
+
+```
+npm run hot
+```
+
+This will run the dev server on http://127.0.0.1:8080 with hot reload enabled.

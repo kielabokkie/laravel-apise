@@ -3,10 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="noindex, nofollow">
-    <title>Apise{{ config('app.name') ? ' - ' . config('app.name') : '' }}</title>
-    <link href="{{ asset(mix('tailwind.css', 'vendor/kielabokkie/laravel-apise')) }}" rel="stylesheet">
+    <title>Apise View Testpage</title>
+    <link href="tailwind.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
     <div id="apise" class="container mx-auto my-4" v-cloak>
@@ -15,6 +14,6 @@
         </div>
         <div id="app"></div>
     </div>
-    <script src="{{ asset(mix('main.js', 'vendor/kielabokkie/laravel-apise')) }}"></script>
+    <script src="main.js"></script>
 </body>
 </html>

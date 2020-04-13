@@ -34,7 +34,7 @@ class ApiServiceMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return sprintf('%s/../stubs/api-service.stub', __DIR__);
+        return sprintf('%s/../../stubs/api-service.stub', __DIR__);
     }
 
     /**

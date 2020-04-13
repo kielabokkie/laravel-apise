@@ -18,4 +18,16 @@ class HomeController extends Controller
 
         return view('apise::layout', compact('logs'));
     }
+
+    /**
+     * Retrieve the logs.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logs()
+    {
+        $logs = ApiLog::all()->sortByDesc('id');
+
+        return response()->json($logs->values());
+    }
 }

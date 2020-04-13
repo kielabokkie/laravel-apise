@@ -18,7 +18,9 @@ class CreateApiseLogsTable extends Migration
             $table->uuid('correlation_id')->unique()->index();
             $table->string('method', 10);
             $table->string('protocol_version', 10);
+            $table->string('host');
             $table->string('uri');
+            $table->longText('query_params')->nullable();
             $table->longText('request_headers')->nullable();
             $table->longText('request_body')->nullable();
             $table->unsignedSmallInteger('status_code')->nullable();

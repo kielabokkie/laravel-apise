@@ -1,4 +1,11 @@
+.DS_Store
+.idea
+.vscode
+/dist
+/public/hot
 /vendor
 build
 composer.lock
 composer.phar
+node_modules
+npm-debug.log*

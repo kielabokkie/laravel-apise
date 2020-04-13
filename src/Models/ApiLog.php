@@ -14,7 +14,7 @@ class ApiLog extends Model
     protected $table = 'apise_logs';
 
     /**
-     * The name of the "updated at" column.
+     * The name of the "updated_at" column.
      *
      * @var string
      */
@@ -26,4 +26,59 @@ class ApiLog extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * Convert query_params attribute to an object.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function getQueryParamsAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    /**
+     * Convert request_headers attribute to an object.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function getRequestHeadersAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    /**
+     * Convert request_body attribute to an object.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function getRequestBodyAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    /**
+     * Convert response_headers attribute to an object.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function getResponseHeadersAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+    /**
+     * Convert response_body attribute to an object.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function getResponseBodyAttribute($value)
+    {
+        return json_decode($value);
+    }
 }

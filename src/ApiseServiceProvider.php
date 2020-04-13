@@ -15,11 +15,10 @@ class ApiseServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/apise.php' => config_path('apise.php'),
-            ], 'config');
-        }
+        $this->registerRoutes();
+        $this->registerMigrations();
+        $this->registerPublishing();
+        $this->loadViews();
     }
 
     /**
@@ -31,17 +30,9 @@ class ApiseServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/apise.php', 'apise');
 
-        $this->registerRoutes();
-        $this->registerMigrations();
         $this->registerCommands();
-        $this->loadViews();
     }
 
-    /**
-     * Register the package routes.
-     *
-     * @return void
-     */
     private function registerRoutes()
     {
         Route::group($this->routeConfiguration(), function () {
@@ -49,11 +40,6 @@ class ApiseServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Get the route group configuration array.
-     *
-     * @return array
-     */
     private function routeConfiguration()
     {
         return [
@@ -66,6 +52,19 @@ class ApiseServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        }
+    }
+
+    private function registerPublishing()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/apise.php' => config_path('apise.php'),
+            ], 'apise-config');
+
+            $this->publishes([
+                __DIR__.'/../public' => public_path('vendor/kielabokkie/laravel-apise'),
+            ], 'apise-assets');
         }
     }
 

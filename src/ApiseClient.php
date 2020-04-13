@@ -3,6 +3,7 @@
 namespace Kielabokkie\Apise;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Middleware;
 use Kielabokkie\Apise\Models\ApiLog;
 use Psr\Http\Message\RequestInterface;
@@ -124,6 +125,18 @@ class ApiseClient
     }
 
     /**
+     * Shorthand function for PATCH requests.
+     *
+     * @param string $uri
+     * @param array $options
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function patch($uri, array $options = [])
+    {
+        return $this->request('PATCH', $uri, $options);
+    }
+
+    /**
      * Shorthand function for DELETE requests.
      *
      * @param string $uri
@@ -151,7 +164,11 @@ class ApiseClient
         // Tag the request with a unique id so we can match it with the response
         $options['headers']['X-Api-LogID'] = Uuid::uuid4()->toString();
 
-        $response = $this->client->request($method, $uri, $options);
+        try {
+            $response = $this->client->request($method, $uri, $options);
+        } catch (RequestException $th) {
+            $response = $th->getResponse();
+        }
 
         $log = ApiLog::where('correlation_id', $options['headers']['X-Api-LogID']);
 
@@ -223,12 +240,16 @@ class ApiseClient
     private function dbLoggerMiddleware()
     {
         $tapMiddleware = Middleware::tap(
-            function (RequestInterface $request, $options) {
+            function (RequestInterface $request) {
+                $url = $this->parseUrl($request->getUri());
+
                 ApiLog::create([
                     'correlation_id' => $request->getHeader('X-Api-LogID')[0],
                     'method' => $request->getMethod(),
                     'protocol_version' => $request->getProtocolVersion(),
-                    'uri' => $request->getUri(),
+                    'host' => $url['host'],
+                    'uri' => $url['path'],
+                    'query_params' => $url['params'],
                     'request_headers' => json_encode($request->getHeaders()),
                     'request_body' => $request->getBody(),
                     'tag' => empty($this->tag) === false ? $this->tag : null,
@@ -237,5 +258,50 @@ class ApiseClient
         );
 
         return $tapMiddleware;
+    }
+
+    /**
+     * Parse a given URL and return host, path and query params separately.
+     *
+     * @param \GuzzleHttp\Psr7\Uri $url
+     * @return array
+     */
+    private function parseUrl($url)
+    {
+        $host = sprintf('%s://%s', $url->getScheme(), $url->getHost());
+        $path = empty($url->getPath()) === false ? $url->getPath() : '/';
+        $params = null;
+
+        if (empty($url->getQuery()) === false) {
+            $query = ltrim($url->getQuery(), '&');
+            $params = json_encode($this->parseQuery($query));
+        }
+
+        return [
+            'host' => $host,
+            'path' => $path,
+            'params' => $params,
+        ];
+    }
+
+    /**
+     * Parse the query parameters and convert them to an array.
+     *
+     * @param string $queryParams
+     * @return array
+     */
+    private function parseQuery($queryParams)
+    {
+        $queryParams = html_entity_decode($queryParams);
+        $queryParams = explode('&', $queryParams);
+
+        $arr = [];
+
+        foreach ($queryParams as $param) {
+            $part = explode('=', $param);
+            $arr[$part[0]] = $part[1];
+        }
+
+        return $arr;
     }
 }
