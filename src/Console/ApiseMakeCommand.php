@@ -4,7 +4,7 @@ namespace Kielabokkie\Apise\Console;
 
 use Illuminate\Console\GeneratorCommand;
 
-class ApiServiceMakeCommand extends GeneratorCommand
+class ApiseMakeCommand extends GeneratorCommand
 {
     /**
      * The console command name.

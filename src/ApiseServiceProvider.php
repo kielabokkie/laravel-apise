@@ -4,7 +4,8 @@ namespace Kielabokkie\Apise;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Kielabokkie\Apise\Console\ApiServiceMakeCommand;
+use Kielabokkie\Apise\Console\ApiseMakeCommand;
+use Kielabokkie\Apise\Console\PruneCommand;
 
 class ApiseServiceProvider extends ServiceProvider
 {
@@ -71,7 +72,8 @@ class ApiseServiceProvider extends ServiceProvider
     private function registerCommands()
     {
         $this->commands([
-            ApiServiceMakeCommand::class,
+            ApiseMakeCommand::class,
+            PruneCommand::class
         ]);
     }
 
