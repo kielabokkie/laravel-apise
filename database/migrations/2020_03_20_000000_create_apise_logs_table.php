@@ -27,6 +27,7 @@ class CreateApiseLogsTable extends Migration
             $table->string('reason_phrase', 64)->nullable();
             $table->longText('response_headers')->nullable();
             $table->longText('response_body')->nullable();
+            $table->integer('total_time')->nullable();
             $table->string('tag', 32)->nullable();
             $table->dateTime('created_at')->nullable();
         });

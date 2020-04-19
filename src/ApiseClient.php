@@ -5,6 +5,7 @@ namespace Kielabokkie\Apise;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Middleware;
+use GuzzleHttp\TransferStats;
 use Kielabokkie\Apise\Models\ApiLog;
 use Psr\Http\Message\RequestInterface;
 use Ramsey\Uuid\Uuid;
@@ -17,6 +18,13 @@ class ApiseClient
      * @var Client
      */
     protected $client;
+
+    /**
+     * Flag to determine if request and response should be logged.
+     *
+     * @var boolean
+     */
+    private $shouldLog = false;
 
     /**
      * Array of middlewares to be pushed on to the handler stack.
@@ -37,7 +45,7 @@ class ApiseClient
     {
         $middlewares = collect();
 
-        if (config('api-service.logging_enabled') === true) {
+        if ($this->shouldLog === true) {
             $middlewares->push($this->dbLoggerMiddleware());
         }
 
@@ -71,6 +79,8 @@ class ApiseClient
      */
     protected function setClient(Client $client = null)
     {
+        $this->shouldLog = config('api-service.logging_enabled');
+
         if ($client === null) {
             $client = new Client([
                 'base_uri' => $this->baseUrl,
@@ -161,8 +171,19 @@ class ApiseClient
         $uri = $this->addDefaultQueryParams($uri);
         $options = $this->addHeaders($options);
 
-        // Tag the request with a unique id so we can match it with the response
-        $options['headers']['X-Api-LogID'] = Uuid::uuid4()->toString();
+        if ($this->shouldLog === true) {
+            $correlationId = Uuid::uuid4()->toString();
+
+            // Tag the request with a unique id so we can match it with the response
+            $options['headers']['X-Apise-ID'] = $correlationId;
+
+            $options['on_stats'] = function (TransferStats $stats) use ($correlationId) {
+                ApiLog::where('correlation_id', $correlationId)
+                    ->update([
+                        'total_time' => number_format($stats->getTransferTime() * 1000)
+                    ]);
+            };
+        }
 
         try {
             $response = $this->client->request($method, $uri, $options);
@@ -170,18 +191,20 @@ class ApiseClient
             $response = $th->getResponse();
         }
 
-        $log = ApiLog::where('correlation_id', $options['headers']['X-Api-LogID']);
+        if ($this->shouldLog === true) {
+            $log = ApiLog::where('correlation_id', $options['headers']['X-Apise-ID']);
 
-        // Update the log with response data
-        $log->update([
-            'status_code' => $response->getStatusCode(),
-            'reason_phrase' => $response->getReasonPhrase(),
-            'response_headers' => json_encode($response->getHeaders()),
-            'response_body' => $response->getBody()->getContents(),
-        ]);
+            // Update the log with response data
+            $log->update([
+                'status_code' => $response->getStatusCode(),
+                'reason_phrase' => $response->getReasonPhrase(),
+                'response_headers' => json_encode($response->getHeaders()),
+                'response_body' => $response->getBody()->getContents(),
+            ]);
 
-        // Rewind the response body or else it will be empty
-        $response->getBody()->rewind();
+            // Rewind the response body or else it will be empty
+            $response->getBody()->rewind();
+        }
 
         return $response;
     }
@@ -244,7 +267,7 @@ class ApiseClient
                 $url = $this->parseUrl($request->getUri());
 
                 ApiLog::create([
-                    'correlation_id' => $request->getHeader('X-Api-LogID')[0],
+                    'correlation_id' => $request->getHeader('X-Apise-ID')[0],
                     'method' => $request->getMethod(),
                     'protocol_version' => $request->getProtocolVersion(),
                     'host' => $url['host'],

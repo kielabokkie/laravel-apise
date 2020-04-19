@@ -57,6 +57,7 @@ export default {
               "uri": "https:\/\/httpbin.org\/get",
               "status_code": "200",
               "reason_phrase": "OK",
+              "total_time": "800",
               "tag": "httpbin",
             },
             {
@@ -88,6 +89,7 @@ export default {
               },
               "status_code": "200",
               "reason_phrase": "OK",
+              "total_time": "704",
               "response_headers": {
                 "Date": [
                   "Tue, 31 Mar 2020 04:59:38 GMT"

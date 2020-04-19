@@ -1,9 +1,9 @@
 <template>
   <div class="flex my-8 bg-white border-2 border-gray-200 shadow-lg">
-    <div class="w-1/2 border-r-2 border-gray-200 bg-gray-100">
+    <div class="w-2/5 border-r-2 border-gray-200 bg-gray-100">
       <log-list v-model="selectedItem"></log-list>
     </div>
-    <div class="w-1/2 overflow-auto p-2">
+    <div class="w-3/5 overflow-auto p-2">
       <log-details :prop-log="selectedItem"></log-details>
     </div>
   </div>

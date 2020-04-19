@@ -1,10 +1,14 @@
 <template>
   <div v-if="propLog">
-    <div class="flex justify-between bg-gray-100 m-2 p-2">
-      <div class="text-sm">Happened {{ relativeTime }}</div>
+    <div class="flex justify-between bg-gray-100 text-sm m-2 p-2">
+      <div><b>When:</b> {{ relativeTime }}</div>
       <div>
-        <div class="m-0 p-0">
-          <span class="text-sm">{{ propLog.reason_phrase }}</span>
+        <b>Request time:</b> {{ propLog.total_time }} ms
+      </div>
+      <div>
+        <div>
+          <b>Status:</b>
+          <span>{{ propLog.reason_phrase }}</span>
           <status-pill :prop-status-code="propLog.status_code"></status-pill>
         </div>
       </div>
