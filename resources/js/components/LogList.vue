@@ -40,7 +40,8 @@ export default {
     return {
       logs: [],
       selectedItem: this.value,
-      canLoadMore: false
+      canLoadMore: false,
+      polling: null
     }
   },
 
@@ -49,15 +50,31 @@ export default {
   },
 
   methods: {
+    fetchLatest() {
+      this.polling = setInterval(() => {
+        let topLog = this.logs[0]
+
+        axios.get('/apise/api/logs/latest/' + topLog.id)
+          .then((response) => {
+            let newRecords = response.data
+
+            // Add the new records at the beginning of the logs array
+            this.logs = newRecords.concat(this.logs)
+          })
+          .catch((error) => {
+            //
+          })
+      }, 2500)
+    },
     selectItem(log) {
       this.selectedItem = log
       this.$emit("input", this.selectedItem)
     },
     loadMore() {
       let lastIndex = this.logs.length - 1
-      let lastLog = this.logs[lastIndex]
+      let bottomLog = this.logs[lastIndex]
 
-      axios.get('/apise/api/logs/' + lastLog.id)
+      axios.get('/apise/api/logs/' + bottomLog.id)
         .then((response) => {
           this.logs = this.logs.concat(response.data.logs)
 
@@ -77,6 +94,8 @@ export default {
           if (response.data.total > this.logs.length) {
             this.canLoadMore = true
           }
+
+          this.fetchLatest()
         })
         .catch((error) => {
           this.logs = [
@@ -197,6 +216,10 @@ export default {
 
       return color
     }
+  },
+
+  beforeDestroy () {
+    clearInterval(this.polling)
   },
 
   components: {

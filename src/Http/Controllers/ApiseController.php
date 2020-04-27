@@ -42,4 +42,19 @@ class ApiseController extends Controller
 
         return response()->json($data);
     }
+
+    /**
+     * Retrieve the latest logs.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function latest($fromId)
+    {
+        $logs = ApiLog::where('id', '>', $fromId)
+            ->orderBy('id', 'desc')
+            ->get()
+            ->toArray();
+
+        return response()->json($logs);
+    }
 }
