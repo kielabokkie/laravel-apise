@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'ApiseController@index');
 
-Route::get('/api/logs', 'HomeController@logs');
+
+Route::prefix('api')->group(function () {
+    Route::get('/logs', 'ApiseController@logs');
+    Route::get('/logs/{id}', 'ApiseController@logs');
+});

@@ -18,8 +18,8 @@
       <div class="text-2xl pb-2">Query parameters</div>
       <table class="text-sm table-auto w-full bg-gray-100 border-2 border-gray-200">
         <tr v-for="(params, key) in propLog.query_params" :key="key" class="border-b">
-          <td class="p-2 font-semibold">{{ key }}</td>
-          <td>{{ params }}</td>
+          <td class="p-2 font-semibold w-1/2">{{ key }}</td>
+          <td class="w-1/2">{{ params }}</td>
         </tr>
       </table>
     </div>
@@ -43,8 +43,8 @@
         <div class="text-2xl pb-2">Headers</div>
         <table class="text-sm bg-gray-100 border-2 border-gray-200 w-full">
           <tr v-for="(header, key) in propLog.response_headers" :key="key" class="border-b">
-            <td class="p-2 font-semibold">{{ key }}</td>
-            <td>{{ header[0] }}</td>
+            <td class="p-2 font-semibold w-1/2">{{ key }}</td>
+            <td class="w-1/2">{{ header[0] }}</td>
           </tr>
         </table>
       </div>
@@ -59,8 +59,8 @@
         <div class="text-2xl pb-2">Headers</div>
         <table class="text-sm bg-gray-100 border-2 border-gray-200 w-full">
           <tr v-for="(header, key) in propLog.request_headers" :key="key" class="border-b">
-            <td class="p-2 font-semibold">{{ key }}</td>
-            <td>{{ header[0] }}</td>
+            <td class="p-2 font-semibold w-1/2">{{ key }}</td>
+            <td class="w-1/2">{{ header[0] }}</td>
           </tr>
         </table>
       </div>
