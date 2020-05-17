@@ -1,6 +1,6 @@
 # Apise for Laravel
 
-The Apise package for Laravel can be used to simplify creating an API service for integrating with an external API.
+The Apise package for Laravel can be used to simplify creating an API service for integrating with an external JSON API.
 
 ## Installation
 

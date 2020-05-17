@@ -44,7 +44,7 @@
         <table class="text-sm bg-gray-100 border-2 border-gray-200 w-full">
           <tr v-for="(header, key) in propLog.response_headers" :key="key" class="border-b">
             <td class="p-2 font-semibold w-1/2">{{ key }}</td>
-            <td class="w-1/2">{{ header[0] }}</td>
+            <td class="w-1/2">{{ Array.isArray(header) ? header[0] : header }}</td>
           </tr>
         </table>
       </div>
@@ -60,7 +60,7 @@
         <table class="text-sm bg-gray-100 border-2 border-gray-200 w-full">
           <tr v-for="(header, key) in propLog.request_headers" :key="key" class="border-b">
             <td class="p-2 font-semibold w-1/2">{{ key }}</td>
-            <td class="w-1/2">{{ header[0] }}</td>
+            <td class="w-1/2">{{ Array.isArray(header) ? header[0] : header }}</td>
           </tr>
         </table>
       </div>

@@ -18,7 +18,7 @@ class ApiseController extends Controller
     }
 
     /**
-     * Retrieve the logs, 50 at a time.
+     * Retrieve the logs, 20 at a time.
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -27,7 +27,7 @@ class ApiseController extends Controller
         $totalRecords = ApiLog::all()->count();
 
         $query = ApiLog::orderBy('id', 'desc')
-            ->take(3);
+            ->take(20);
 
         if ($fromId !== null) {
             $query->where('id', '<', $fromId);
@@ -51,6 +51,7 @@ class ApiseController extends Controller
     public function latest($fromId)
     {
         $logs = ApiLog::where('id', '>', $fromId)
+            ->whereNotNull('status_code')
             ->orderBy('id', 'desc')
             ->get()
             ->toArray();

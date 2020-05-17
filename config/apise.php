@@ -7,6 +7,18 @@ return [
     'logging_enabled' => env('APISE_LOGGING_ENABLED', false),
 
     /**
+     * Enable concealing of sensitive data
+     */
+    'conceal_enabled' => env('APISE_CONCEAL_ENABLED', true),
+
+    /**
+     * Keys that should be concealed when displayed on the Apise UI
+     */
+    'conceal_keys' => [
+        'api_key'
+    ],
+
+    /**
      * This is the URI path where the UI will be accessible from
      */
     'path' => env('APISE_PATH', 'apise'),

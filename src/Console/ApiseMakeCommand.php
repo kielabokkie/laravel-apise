@@ -45,7 +45,7 @@ class ApiseMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        $namespace = config('api-service.namespace', 'Support\Services');
+        $namespace = config('apise.namespace', 'Support\Services');
 
         return sprintf('%s\%s', $rootNamespace, trim($namespace, '\\'));
     }

@@ -27,6 +27,13 @@ class ApiseClient
     private $shouldLog = false;
 
     /**
+     * Flag to determine if request and response data should be concealed.
+     *
+     * @var boolean
+     */
+    private $shouldConceal = false;
+
+    /**
      * Array of middlewares to be pushed on to the handler stack.
      *
      * @return array
@@ -79,7 +86,8 @@ class ApiseClient
      */
     protected function setClient(Client $client = null)
     {
-        $this->shouldLog = config('api-service.logging_enabled');
+        $this->shouldLog = config('apise.logging_enabled');
+        $this->shouldConceal = config('apise.conceal_enabled');
 
         if ($client === null) {
             $client = new Client([
@@ -194,12 +202,15 @@ class ApiseClient
         if ($this->shouldLog === true) {
             $log = ApiLog::where('correlation_id', $options['headers']['X-Apise-ID']);
 
+            $headers = $this->concealInput(json_encode($response->getHeaders()));
+            $body = $this->concealInput($response->getBody()->getContents());
+
             // Update the log with response data
             $log->update([
                 'status_code' => $response->getStatusCode(),
                 'reason_phrase' => $response->getReasonPhrase(),
-                'response_headers' => json_encode($response->getHeaders()),
-                'response_body' => $response->getBody()->getContents(),
+                'response_headers' => $headers,
+                'response_body' => $body,
             ]);
 
             // Rewind the response body or else it will be empty
@@ -266,6 +277,9 @@ class ApiseClient
             function (RequestInterface $request) {
                 $url = $this->parseUrl($request->getUri());
 
+                $headers = $this->concealInput(json_encode($request->getHeaders()));
+                $body = $this->concealInput($request->getBody());
+
                 ApiLog::create([
                     'correlation_id' => $request->getHeader('X-Apise-ID')[0],
                     'method' => $request->getMethod(),
@@ -273,8 +287,8 @@ class ApiseClient
                     'host' => $url['host'],
                     'uri' => $url['path'],
                     'query_params' => $url['params'],
-                    'request_headers' => json_encode($request->getHeaders()),
-                    'request_body' => $request->getBody(),
+                    'request_headers' => $headers,
+                    'request_body' => $body,
                     'tag' => empty($this->tag) === false ? $this->tag : null,
                 ]);
             }
@@ -326,5 +340,26 @@ class ApiseClient
         }
 
         return $arr;
+    }
+
+    /**
+     * Process the given input and conceal data if needed.
+     *
+     * @param \GuzzleHttp\Psr7\Stream $input
+     * @return string
+     */
+    private function concealInput($input)
+    {
+        $input = json_decode($input, true);
+
+        if ($input === null) {
+            return null;
+        }
+
+        if ($this->shouldConceal === true) {
+            $input = conceal((array)$input, config('apise.conceal_keys'));
+        }
+
+        return json_encode($input);
     }
 }
