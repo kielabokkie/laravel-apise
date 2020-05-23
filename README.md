@@ -1,6 +1,6 @@
 # Apise for Laravel
 
-The Apise package for Laravel can be used to simplify creating an API service for integrating with an external JSON API.
+The Apise package for Laravel can be used to simplify creating an API service for integrating with an external JSON API. It also comes with an optional UI to view request and response data of your API services.
 
 ## Installation
 
@@ -21,22 +21,62 @@ This is the contents of the file that will be published at `config/apise.php`:
 ```php
 return [
     /**
-     * Enable logging of requests and responses
-     */
-    'logging_enabled' => env('APISE_LOGGING_ENABLED', false),
-
-    /**
-     * This is the URI path where the UI will be accessible from
-     */
-    'path' => env('APISE_PATH', 'apise'),
-
-    /**
      * The namespace where your API Service classes are created under.
      * This will be appended to your base namespace. So the config below
      * will create a class under App\Support\Services.
      */
     'namespace' => 'Support\Services',
+
+    /**
+     * Enable logging of requests and responses
+     */
+    'logging_enabled' => env('APISE_LOGGING_ENABLED', false),
+
+    /**
+     * Enable concealing of sensitive data
+     */
+    'conceal_enabled' => env('APISE_CONCEAL_ENABLED', true),
+
+    /**
+     * Keys that should be concealed when displayed on the Apise UI
+     */
+    'conceal_keys' => [
+        'api_key'
+    ]
+
+    /**
+     * This is the URI path where the UI will be accessible from
+     */
+    'path' => env('APISE_PATH', 'apise'),
 ];
+```
+
+### Logging
+
+By default logging of all requests is enabled. This will give you a page under `/apise` where you can inspect request and response data. There will be some overhead when logging is enabled as records are saved to the database. To disable logging add the following to your `.env` file:
+
+```
+APISE_LOGGING_ENABLED=false
+```
+
+### Apise UI
+
+As mentioned before the UI of Apise can be accessed via `/apise`. If you would like to change this you can do so by setting the following environment variable:
+
+```
+APISE_PATH='admin/apise'
+```
+
+### Conceal sensitive data
+
+You probably don't want sensitive data to be stored in your database so Apise will make it easy for us to conceal this kind of data. In the background Apise uses the [kielabokie/laravel-conceal](https://github.com/kielabokkie/laravel-conceal) package to automatically conceal sensitive headers and request data. By default the package conceals the values of `password` and `password_confirmation` fields but you can add any keys you want to the `conceal_keys` array in the `apise.php` config file:
+
+```php
+'conceal_keys' => [
+    'api_key',
+    'Authorization',
+    'token'
+]
 ```
 
 ## Setup
@@ -115,6 +155,25 @@ protected function defaultQueryParams()
 ```
 
 This will automatically append the token as a get parameter like so: `https://httpbin.org/get?token=your-token`.
+
+## Purge logs
+
+Depending on how many calls your API service is doing the logs table can quickly fill up. You can run the prune command to remove any logs older than the given number of hours:
+
+```bash
+php artisan apise:prune --hours 24
+```
+
+To automatically prune old logs you can add it to the Laravel scheduler `app/Console/Kernel.php`, for example:
+
+```
+protected function schedule(Schedule $schedule)
+{
+    // Clean up logs older than 3 days
+    $schedule->command('apise:prune --hours=72')
+         ->daily();
+}
+```
 
 ## Development
 
