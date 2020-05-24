@@ -2,7 +2,7 @@
 
 namespace Kielabokkie\Apise\Tests;
 
-use Kielabokkie\Apise\ApiseServiceProvider;
+use Kielabokkie\Apise\Providers\ApiseServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {

@@ -13,7 +13,7 @@ Install the package via composer:
 Publish the config file by running the following command:
 
 ```bash
-php artisan vendor:publish --provider="Kielabokkie\Apise\ApiseServiceProvider"
+php artisan vendor:publish --provider="Kielabokkie\Apise\Providers\ApiseServiceProvider"
 ```
 
 This is the contents of the file that will be published at `config/apise.php`:

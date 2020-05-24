@@ -1,8 +1,7 @@
 <?php
 
-namespace Kielabokkie\Apise;
+namespace Kielabokkie\Apise\Providers;
 
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Kielabokkie\Apise\Console\ApiseMakeCommand;
@@ -10,6 +9,8 @@ use Kielabokkie\Apise\Console\PruneCommand;
 
 class ApiseServiceProvider extends ServiceProvider
 {
+    private $root = __DIR__ . '/../..';
+
     /**
      * Bootstrap any package services.
      *
@@ -30,7 +31,7 @@ class ApiseServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/apise.php', 'apise');
+        $this->mergeConfigFrom($this->root . '/config/apise.php', 'apise');
 
         $this->registerCommands();
     }
@@ -40,7 +41,7 @@ class ApiseServiceProvider extends ServiceProvider
         Route::middlewareGroup('apise', config('apise.middleware', []));
 
         Route::group($this->routeConfiguration(), function () {
-            $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
+            $this->loadRoutesFrom(__DIR__ . '/../Http/routes.php');
         });
     }
 
@@ -56,7 +57,7 @@ class ApiseServiceProvider extends ServiceProvider
     private function registerMigrations()
     {
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+            $this->loadMigrationsFrom($this->root . '/database/migrations');
         }
     }
 
@@ -64,15 +65,15 @@ class ApiseServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/apise.php' => config_path('apise.php'),
+                $this->root . '/config/apise.php' => config_path('apise.php'),
             ], 'apise-config');
 
             $this->publishes([
-                __DIR__.'/../public' => public_path('vendor/kielabokkie/laravel-apise'),
+               $this->root . '/public' => public_path('vendor/kielabokkie/laravel-apise'),
             ], 'apise-assets');
 
             $this->publishes([
-                __DIR__.'/../stubs/ApiseServiceProvider.stub' => app_path('Providers/ApiseServiceProvider.php'),
+               $this->root . '/stubs/ApiseServiceProvider.stub' => app_path('Providers/ApiseServiceProvider.php'),
             ], 'apise-provider');
         }
     }
@@ -81,12 +82,12 @@ class ApiseServiceProvider extends ServiceProvider
     {
         $this->commands([
             ApiseMakeCommand::class,
-            PruneCommand::class
+            PruneCommand::class,
         ]);
     }
 
     private function loadViews()
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'apise');
+        $this->loadViewsFrom($this->root . '/resources/views', 'apise');
     }
 }

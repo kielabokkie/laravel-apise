@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
-use Kielabokkie\Apise\ApiseApplicationServiceProvider;
+use Kielabokkie\Apise\Providers\ApiseApplicationServiceProvider;
 
 class ApiseServiceProvider extends ApiseApplicationServiceProvider
 {
