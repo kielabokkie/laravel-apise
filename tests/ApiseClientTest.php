@@ -56,15 +56,14 @@ class ApiseClientTest extends TestCase
     public function default_headers_get_added_to_request()
     {
         $responses = new MockHandler([
-            new Response(200, [], json_encode(['message' => 'hello'])),
+            new Response(200),
         ]);
 
         $handler = HandlerStack::create($responses);
-
         $client = new Client(['handler' => $handler]);
 
         $api = new ApiServiceFake($client);
-        $api->getRequest('/get');
+        $api->getRequest('get');
 
         // Check that the default header had been added to the request
         $this->assertTrue(in_array('X-Foo', array_keys($api->interceptedHeaders)));
@@ -81,11 +80,11 @@ class ApiseClientTest extends TestCase
         $client = new Client(['handler' => $handler]);
 
         $api = new ApiServiceFake($client);
-        $res = $api->getRequest('/get');
+        $res = $api->getRequest('get');
+
         $body = json_decode($res->getBody()->getContents());
 
         $this->assertEquals('GET', $api->interceptedMethod);
-
         $this->assertEquals('hello', $body->message);
     }
 
@@ -97,12 +96,10 @@ class ApiseClientTest extends TestCase
         ]);
 
         $handler = HandlerStack::create($responses);
-
         $client = new Client(['handler' => $handler]);
 
         $api = new ApiServiceFake($client);
-        $res = $api->postRequest('/post', ['json' => ['foo' => 'bar']]);
-        $body = json_decode($res->getBody()->getContents());
+        $api->postRequest('post', ['json' => ['foo' => 'bar']]);
 
         $this->assertEquals('POST', $api->interceptedMethod);
     }
@@ -115,12 +112,10 @@ class ApiseClientTest extends TestCase
         ]);
 
         $handler = HandlerStack::create($responses);
-
         $client = new Client(['handler' => $handler]);
 
         $api = new ApiServiceFake($client);
-        $res = $api->putRequest('/put', ['json' => ['foo' => 'bar']]);
-        $body = json_decode($res->getBody()->getContents());
+        $api->putRequest('put', ['json' => ['foo' => 'bar']]);
 
         $this->assertEquals('PUT', $api->interceptedMethod);
     }
@@ -133,12 +128,10 @@ class ApiseClientTest extends TestCase
         ]);
 
         $handler = HandlerStack::create($responses);
-
         $client = new Client(['handler' => $handler]);
 
         $api = new ApiServiceFake($client);
-        $res = $api->deleteRequest('/delete');
-        $body = json_decode($res->getBody()->getContents());
+        $api->deleteRequest('delete');
 
         $this->assertEquals('DELETE', $api->interceptedMethod);
     }
