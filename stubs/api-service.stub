@@ -58,4 +58,27 @@ class DummyClass extends ApiseClient
     {
         $this->setClient($client);
     }
+
+    /**
+     * Example GET request.
+     */
+    public function exampleGet($id)
+    {
+        $uri = sprintf('users/%s', $id);
+        $result = $this->get($uri);
+
+        return json_decode($result->getBody());
+    }
+
+    /**
+     * Example POST request.
+     */
+    public function examplePost(array $data)
+    {
+        $uri = sprintf('users/%s', $id);
+        $payload = ['json' => $data];
+        $result = $this->post($uri, $payload);
+
+        return json_decode($result->getBody());
+    }
 }
