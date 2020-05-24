@@ -2,6 +2,7 @@
 
 namespace Kielabokkie\Apise;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Kielabokkie\Apise\Console\ApiseMakeCommand;
@@ -36,6 +37,8 @@ class ApiseServiceProvider extends ServiceProvider
 
     private function registerRoutes()
     {
+        Route::middlewareGroup('apise', config('apise.middleware', []));
+
         Route::group($this->routeConfiguration(), function () {
             $this->loadRoutesFrom(__DIR__.'/Http/routes.php');
         });
@@ -46,6 +49,7 @@ class ApiseServiceProvider extends ServiceProvider
         return [
             'namespace' => 'Kielabokkie\Apise\Http\Controllers',
             'prefix' => config('apise.path', 'apise'),
+            'middleware' => 'apise',
         ];
     }
 
@@ -66,6 +70,10 @@ class ApiseServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../public' => public_path('vendor/kielabokkie/laravel-apise'),
             ], 'apise-assets');
+
+            $this->publishes([
+                __DIR__.'/../stubs/ApiseServiceProvider.stub' => app_path('Providers/ApiseServiceProvider.php'),
+            ], 'apise-provider');
         }
     }
 

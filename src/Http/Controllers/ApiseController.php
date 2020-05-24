@@ -4,9 +4,12 @@ namespace Kielabokkie\Apise\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Kielabokkie\Apise\Models\ApiLog;
+use Kielabokkie\Apise\Traits\AuthorizesRequests;
 
 class ApiseController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display the Apise dashboard.
      *

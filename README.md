@@ -28,6 +28,16 @@ return [
     'namespace' => 'Support\Services',
 
     /**
+     * These middlewares will be assigned to the Apise routes. You can
+     * add your own middleware to this list or change any of the existing
+     * middleware.
+     */
+    'middleware' => [
+        'web',
+        Authorize::class,
+    ],
+
+    /**
      * Enable logging of requests and responses
      */
     'logging_enabled' => env('APISE_LOGGING_ENABLED', false),

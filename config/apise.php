@@ -1,5 +1,7 @@
 <?php
 
+use Kielabokkie\Apise\Http\Middleware\Authorize;
+
 return [
     /**
      * The namespace where your API Service classes are created under.
@@ -7,6 +9,16 @@ return [
      * will create a class under App\Support\Services.
      */
     'namespace' => 'Support\Services',
+
+    /**
+     * These middlewares will be assigned to the Apise routes. You can
+     * add your own middleware to this list or change any of the existing
+     * middleware.
+     */
+    'middleware' => [
+        'web',
+        Authorize::class,
+    ],
 
     /**
      * Enable logging of requests and responses

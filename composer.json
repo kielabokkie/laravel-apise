@@ -33,6 +33,7 @@
     "extra": {
         "laravel": {
             "providers": [
+                "App\\Providers\\ApiseServiceProvider",
                 "Kielabokkie\\Apise\\ApiseServiceProvider"
             ]
         }
