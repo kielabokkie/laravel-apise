@@ -13,7 +13,9 @@
         <div class="flex align-items-center p-4 border-b">
             <span class="text-3xl">Apise Logs</span>
         </div>
-        <div id="app"></div>
+        <div id="app">
+            <logs></logs>
+        </div>
     </div>
     <script src="{{ asset(mix('main.js', 'vendor/kielabokkie/laravel-apise')) }}"></script>
 </body>
