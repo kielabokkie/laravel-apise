@@ -2,6 +2,7 @@
 
 [![Author](http://img.shields.io/badge/by-@kielabokkie-lightgrey.svg?style=flat-square)](https://twitter.com/kielabokkie)
 [![Build](https://img.shields.io/github/workflow/status/kielabokkie/laravel-apise/workflows/run-tests/master?style=flat-square)](https://github.com/kielabokkie/laravel-apise/actions)
+[![Coveralls github](https://img.shields.io/coveralls/github/kielabokkie/laravel-apise?style=flat-square)]()
 [![Packagist Version](https://img.shields.io/packagist/v/kielabokkie/laravel-apise.svg?style=flat-square)](https://packagist.org/packages/kielabokkie/laravel-apise)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 
@@ -181,7 +182,7 @@ php artisan apise:prune --hours 24
 
 To automatically prune old logs you can add it to the Laravel scheduler `app/Console/Kernel.php`, for example:
 
-```
+```php
 protected function schedule(Schedule $schedule)
 {
     // Clean up logs older than 3 days
