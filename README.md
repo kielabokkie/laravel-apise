@@ -1,6 +1,11 @@
 # Apise for Laravel
 
-The Apise package for Laravel can be used to simplify creating an API service for integrating with an external JSON API. It also comes with an optional UI to view request and response data of your API services.
+[![Author](http://img.shields.io/badge/by-@kielabokkie-lightgrey.svg?style=flat-square)](https://twitter.com/kielabokkie)
+[![Build](https://img.shields.io/github/workflow/status/kielabokkie/laravel-apise/workflows/run-tests/master?style=flat-square)](https://github.com/kielabokkie/laravel-apise/actions)
+[![Packagist Version](https://img.shields.io/packagist/v/kielabokkie/laravel-apise.svg?style=flat-square)](https://packagist.org/packages/kielabokkie/laravel-apise)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+
+Apise for Laravel can be used to simplify creating an API service for integrating with an external JSON API. It also comes with an optional UI to view request and response data of your API services.
 
 ## Installation
 
