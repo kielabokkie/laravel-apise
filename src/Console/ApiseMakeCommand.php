@@ -1,10 +1,10 @@
 <?php
 
-namespace Kielabokkie\GuzzleApiService;
+namespace Kielabokkie\Apise\Console;
 
 use Illuminate\Console\GeneratorCommand;
 
-class ApiServiceMakeCommand extends GeneratorCommand
+class ApiseMakeCommand extends GeneratorCommand
 {
     /**
      * The console command name.
@@ -34,7 +34,7 @@ class ApiServiceMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return sprintf('%s/../stubs/api-service.stub', __DIR__);
+        return sprintf('%s/../../stubs/api-service.stub', __DIR__);
     }
 
     /**
@@ -45,7 +45,7 @@ class ApiServiceMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        $namespace = config('api-service.namespace', 'Support\Services');
+        $namespace = config('apise.namespace', 'Support\Services');
 
         return sprintf('%s\%s', $rootNamespace, trim($namespace, '\\'));
     }

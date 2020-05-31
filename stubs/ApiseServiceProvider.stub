@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\Facades\Gate;
+use Kielabokkie\Apise\Providers\ApiseApplicationServiceProvider;
+
+class ApiseServiceProvider extends ApiseApplicationServiceProvider
+{
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * Register the Apise gate.
+     *
+     * This gate determines who can access Apise in non-local environments.
+     *
+     * @return void
+     */
+    protected function gate()
+    {
+        Gate::define('viewApise', function ($user) {
+            return in_array($user->email, [
+                //
+            ]);
+        });
+    }
+}

@@ -3,9 +3,9 @@
 namespace DummyNamespace;
 
 use GuzzleHttp\Client;
-use Kielabokkie\GuzzleApiService\ApiClient;
+use Kielabokkie\Apise\ApiseClient;
 
-class DummyClass extends ApiClient
+class DummyClass extends ApiseClient
 {
     /**
      * Base URL of the API.
@@ -13,6 +13,13 @@ class DummyClass extends ApiClient
      * @var string
      */
     protected $baseUrl = '';
+
+    /**
+     * Identifier for this API.
+     *
+     * @var string
+     */
+    protected $tag = '';
 
     /**
      * Array of middlewares to be pushed on to the handler stack.
@@ -50,5 +57,28 @@ class DummyClass extends ApiClient
     public function __construct(Client $client = null)
     {
         $this->setClient($client);
+    }
+
+    /**
+     * Example GET request.
+     */
+    public function exampleGet($id)
+    {
+        $uri = sprintf('users/%s', $id);
+        $result = $this->get($uri);
+
+        return json_decode($result->getBody());
+    }
+
+    /**
+     * Example POST request.
+     */
+    public function examplePost(array $data)
+    {
+        $uri = sprintf('users/%s', $id);
+        $payload = ['json' => $data];
+        $result = $this->post($uri, $payload);
+
+        return json_decode($result->getBody());
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Kielabokkie\GuzzleApiService\Tests;
+namespace Kielabokkie\Apise\Tests;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Middleware;
-use Kielabokkie\GuzzleApiService\ApiClient;
+use Kielabokkie\Apise\ApiseClient;
 
-class ApiServiceFake extends ApiClient
+class ApiServiceFake extends ApiseClient
 {
     /**
      * Base URL of the API.
@@ -118,6 +118,17 @@ class ApiServiceFake extends ApiClient
     public function putRequest($uri, $data)
     {
         return $this->put($uri, $data);
+    }
+
+    /**
+     * PATCH request.
+     *
+     * @param string $uri
+     * @return string
+     */
+    public function patchRequest($uri, $data)
+    {
+        return $this->patch($uri, $data);
     }
 
     /**

@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Laravel Guzzle API Service">
+        <testsuite name="Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
@@ -19,10 +19,12 @@
             <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>
+    <php>
+        <env name="APP_ENV" value="self-testing"/>
+        <env name="APP_KEY" value="base64:mWfgQub9Hs4ZV5YdWx3p7nFAkPa78l8sPKunyAXjxlY="/>
+        <env name="CACHE_DRIVER" value="file"/>
+    </php>
     <logging>
-        <log type="junit" target="build/report.junit.xml"/>
-        <log type="coverage-html" target="build/coverage"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
         <log type="coverage-text" target="php://stdout"/>
     </logging>
 </phpunit>

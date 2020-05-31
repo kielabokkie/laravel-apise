@@ -1,24 +1,24 @@
 <?php
 
-namespace Kielabokkie\GuzzleApiService\Test;
+namespace Kielabokkie\Apise\Tests;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
-use Kielabokkie\GuzzleApiService\ApiClient;
-use Kielabokkie\GuzzleApiService\Tests\ApiServiceFake;
-use Orchestra\Testbench\TestCase;
+use Kielabokkie\Apise\ApiseClient;
+use Kielabokkie\Apise\Tests\ApiServiceFake;
+use Kielabokkie\Apise\Tests\TestCase;
 
 /**
  * phpcs:disable PSR1.Methods.CamelCapsMethodName
  */
-class ApiClientTest extends TestCase
+class ApiseClientTest extends TestCase
 {
     /** @var ApiServiceFake $api */
     private $api;
 
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -28,7 +28,7 @@ class ApiClientTest extends TestCase
     /** @test */
     public function service_is_instance_of_api_client()
     {
-        $this->assertInstanceOf(ApiClient::class, $this->api);
+        $this->assertInstanceOf(ApiseClient::class, $this->api);
     }
 
     /** @test */
@@ -54,15 +54,14 @@ class ApiClientTest extends TestCase
     public function default_headers_get_added_to_request()
     {
         $responses = new MockHandler([
-            new Response(200, [], json_encode(['message' => 'hello'])),
+            new Response(200),
         ]);
 
         $handler = HandlerStack::create($responses);
-
         $client = new Client(['handler' => $handler]);
 
         $api = new ApiServiceFake($client);
-        $api->getRequest('/get');
+        $api->getRequest('get');
 
         // Check that the default header had been added to the request
         $this->assertTrue(in_array('X-Foo', array_keys($api->interceptedHeaders)));
@@ -79,11 +78,11 @@ class ApiClientTest extends TestCase
         $client = new Client(['handler' => $handler]);
 
         $api = new ApiServiceFake($client);
-        $res = $api->getRequest('/get');
+        $res = $api->getRequest('get');
+
         $body = json_decode($res->getBody()->getContents());
 
         $this->assertEquals('GET', $api->interceptedMethod);
-
         $this->assertEquals('hello', $body->message);
     }
 
@@ -95,12 +94,10 @@ class ApiClientTest extends TestCase
         ]);
 
         $handler = HandlerStack::create($responses);
-
         $client = new Client(['handler' => $handler]);
 
         $api = new ApiServiceFake($client);
-        $res = $api->postRequest('/post', ['json' => ['foo' => 'bar']]);
-        $body = json_decode($res->getBody()->getContents());
+        $api->postRequest('post', ['json' => ['foo' => 'bar']]);
 
         $this->assertEquals('POST', $api->interceptedMethod);
     }
@@ -113,14 +110,28 @@ class ApiClientTest extends TestCase
         ]);
 
         $handler = HandlerStack::create($responses);
-
         $client = new Client(['handler' => $handler]);
 
         $api = new ApiServiceFake($client);
-        $res = $api->putRequest('/put', ['json' => ['foo' => 'bar']]);
-        $body = json_decode($res->getBody()->getContents());
+        $api->putRequest('put', ['json' => ['foo' => 'bar']]);
 
         $this->assertEquals('PUT', $api->interceptedMethod);
+    }
+
+    /** @test */
+    public function patch_request()
+    {
+        $responses = new MockHandler([
+            new Response(200),
+        ]);
+
+        $handler = HandlerStack::create($responses);
+        $client = new Client(['handler' => $handler]);
+
+        $api = new ApiServiceFake($client);
+        $api->patchRequest('patch', ['json' => ['foo' => 'bar']]);
+
+        $this->assertEquals('PATCH', $api->interceptedMethod);
     }
 
     /** @test */
@@ -131,12 +142,10 @@ class ApiClientTest extends TestCase
         ]);
 
         $handler = HandlerStack::create($responses);
-
         $client = new Client(['handler' => $handler]);
 
         $api = new ApiServiceFake($client);
-        $res = $api->deleteRequest('/delete');
-        $body = json_decode($res->getBody()->getContents());
+        $api->deleteRequest('delete');
 
         $this->assertEquals('DELETE', $api->interceptedMethod);
     }
