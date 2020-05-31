@@ -121,6 +121,17 @@ class ApiServiceFake extends ApiseClient
     }
 
     /**
+     * PATCH request.
+     *
+     * @param string $uri
+     * @return string
+     */
+    public function patchRequest($uri, $data)
+    {
+        return $this->patch($uri, $data);
+    }
+
+    /**
      * DELETE request.
      *
      * @param string $uri

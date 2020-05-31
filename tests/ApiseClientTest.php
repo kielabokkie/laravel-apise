@@ -3,24 +3,22 @@
 namespace Kielabokkie\Apise\Tests;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Kielabokkie\Apise\ApiseClient;
 use Kielabokkie\Apise\Tests\ApiServiceFake;
+use Kielabokkie\Apise\Tests\TestCase;
 
 /**
  * phpcs:disable PSR1.Methods.CamelCapsMethodName
  */
 class ApiseClientTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @var ApiServiceFake $api */
     private $api;
 
-    protected function setUp():void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -118,6 +116,22 @@ class ApiseClientTest extends TestCase
         $api->putRequest('put', ['json' => ['foo' => 'bar']]);
 
         $this->assertEquals('PUT', $api->interceptedMethod);
+    }
+
+    /** @test */
+    public function patch_request()
+    {
+        $responses = new MockHandler([
+            new Response(200),
+        ]);
+
+        $handler = HandlerStack::create($responses);
+        $client = new Client(['handler' => $handler]);
+
+        $api = new ApiServiceFake($client);
+        $api->patchRequest('patch', ['json' => ['foo' => 'bar']]);
+
+        $this->assertEquals('PATCH', $api->interceptedMethod);
     }
 
     /** @test */
