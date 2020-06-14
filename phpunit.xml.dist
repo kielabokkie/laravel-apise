@@ -17,6 +17,10 @@
     <filter>
         <whitelist>
             <directory suffix=".php">src/</directory>
+            <exclude>
+                <file>./src/Console/ApiseMakeCommand.php</file>
+                <file>./src/Console/InstallCommand.php</file>
+            </exclude>
         </whitelist>
     </filter>
     <php>
