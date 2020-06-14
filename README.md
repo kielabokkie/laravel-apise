@@ -12,17 +12,25 @@ Apise for Laravel can be used to simplify creating an API service for integratin
 
 Install the package via composer:
 
-    composer require kielabokkie/laravel-apise
+```bash
+composer require kielabokkie/laravel-apise
+```
+
+After the package is installed, you'll need to publish its assets:
+
+```bash
+php artisan apise:install
+```
+
+Run the migrations to setup the table used for logging:
+
+```bash
+php artisan migrate
+```
 
 ## Package configuration
 
-Publish the config file by running the following command:
-
-```bash
-php artisan vendor:publish --provider="Kielabokkie\Apise\Providers\ApiseServiceProvider"
-```
-
-This is the contents of the file that will be published at `config/apise.php`:
+The configuration of the package can be found at `config/apise.php`. These are the contents:
 
 ```php
 return [
@@ -46,7 +54,7 @@ return [
     /**
      * Enable logging of requests and responses
      */
-    'logging_enabled' => env('APISE_LOGGING_ENABLED', false),
+    'logging_enabled' => env('APISE_LOGGING_ENABLED', true),
 
     /**
      * Enable concealing of sensitive data
@@ -190,6 +198,10 @@ protected function schedule(Schedule $schedule)
          ->daily();
 }
 ```
+
+## Credits
+
+This package borrowed a lot of its general structure from the [laravel/telescope](https://github.com/laravel/telescope) package. All credit goes to the original authors.
 
 ## Development
 
