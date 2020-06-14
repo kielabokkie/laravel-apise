@@ -5,6 +5,7 @@ namespace Kielabokkie\Apise\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Kielabokkie\Apise\Console\ApiseMakeCommand;
+use Kielabokkie\Apise\Console\InstallCommand;
 use Kielabokkie\Apise\Console\PruneCommand;
 
 class ApiseServiceProvider extends ServiceProvider
@@ -82,6 +83,7 @@ class ApiseServiceProvider extends ServiceProvider
     {
         $this->commands([
             ApiseMakeCommand::class,
+            InstallCommand::class,
             PruneCommand::class,
         ]);
     }
