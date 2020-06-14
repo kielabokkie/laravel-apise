@@ -35,7 +35,10 @@ export default {
       type: Object
     },
     propLogs: {
-      type: Object
+      type: Array
+    },
+    propTotalLogs: {
+      type: Number
     }
   },
 
@@ -48,13 +51,13 @@ export default {
   },
 
   created () {
-    this.logs = this.propLogs.logs
+    this.logs = this.propLogs
 
     if (this.selectedItem === null) {
       this.selectItem(this.logs[0])
     }
 
-    if (this.propLogs.total > this.logs.length) {
+    if (this.propTotalLogs > this.logs.length) {
       this.canLoadMore = true
     }
   },
