@@ -38,7 +38,7 @@ php artisan vendor:publish --tag=apise-assets
 
 ## Package configuration
 
-The configuration of the package can be found at `config/apise.php`. These are the contents:
+The configuration of the package can be found at `config/apise.php`. Below are the contents of the config file:
 
 ```php
 return [
@@ -150,11 +150,11 @@ Note: If you would like your classes to be placed somewhere else you can overwri
 Now to execute a `GET` request you can simply do the following:
 
 ```php
-public function yourGetRequest()
+public function getUsers()
 {
-    $response = $this->get('/get'));
+    $response = $this->get('/users'));
 
-    return json_decode($response->getBody()->getContents());
+    return json_decode($response->getBody());
 }
 ```
 
