@@ -12,7 +12,7 @@
     "require": {
         "guzzlehttp/guzzle": "^6.3",
         "rtheunissen/guzzle-log-middleware": "^0.4.2",
-        "ramsey/uuid": "^3.9",
+        "ramsey/uuid": "^3.9|^4.0",
         "kielabokkie/laravel-conceal": "^1.1"
     },
     "require-dev": {
