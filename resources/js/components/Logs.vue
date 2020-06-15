@@ -61,7 +61,7 @@ export default {
     },
     fetchLatest() {
       this.polling = setInterval(() => {
-        let topLog = this.logs[0]
+        let topLog = this.logs.length > 0 ? this.logs[0] : {id: 0}
 
         axios.get('/apise/api/logs/latest/' + topLog.id)
           .then((response) => {

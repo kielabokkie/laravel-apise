@@ -28,6 +28,14 @@ Run the migrations to setup the table used for logging:
 php artisan migrate
 ```
 
+### Updating Apise
+
+When there is a new version of Apise always publish the assets with the command below to ensure you have the lastest Javascript and other assets.
+
+```bash
+php artisan vendor:publish --tag=apise-assets
+```
+
 ## Package configuration
 
 The configuration of the package can be found at `config/apise.php`. These are the contents:
