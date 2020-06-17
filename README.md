@@ -8,6 +8,10 @@
 
 Apise for Laravel can be used to simplify creating an API service for integrating with an external JSON API. It also comes with an optional UI to view request and response data of your API services.
 
+<p align="center">
+    <img src="./art/screenshot1.png" width="900" alt="screenshot">
+</p>
+
 ## Installation
 
 Install the package via composer:

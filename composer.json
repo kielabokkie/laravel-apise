@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "php": "^7.2",
         "guzzlehttp/guzzle": "^6.3",
         "rtheunissen/guzzle-log-middleware": "^0.4.2",
         "ramsey/uuid": "^3.9|^4.0",
