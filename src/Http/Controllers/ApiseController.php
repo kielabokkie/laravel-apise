@@ -27,7 +27,7 @@ class ApiseController extends Controller
      */
     public function logs($fromId = null)
     {
-        $totalRecords = ApiLog::all()->count();
+        $totalRecords = ApiLog::count();
 
         $query = ApiLog::orderBy('id', 'desc')
             ->take(20);
