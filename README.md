@@ -12,6 +12,11 @@ Apise for Laravel can be used to simplify creating an API service for integratin
     <img src="./art/screenshot1.png" width="900" alt="screenshot">
 </p>
 
+## Requirements
+
+* PHP >= 7.2
+* Laravel 5.8 | 6 | 7
+
 ## Installation
 
 Install the package via composer:
