@@ -90,9 +90,7 @@ class ApiseClient
         $this->shouldConceal = config('apise.conceal_enabled');
 
         if ($client === null) {
-            $client = new Client([
-                'base_uri' => $this->baseUrl,
-            ]);
+            $client = new Client;
         }
 
         $middlewares = array_merge($this->defaultMiddlewares(), $this->middelwares());
@@ -194,7 +192,7 @@ class ApiseClient
         }
 
         try {
-            $response = $this->client->request($method, $uri, $options);
+            $response = $this->client->request($method, $this->baseUrl . $uri, $options);
         } catch (RequestException $th) {
             $response = $th->getResponse();
         }
