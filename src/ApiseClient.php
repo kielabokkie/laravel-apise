@@ -186,7 +186,7 @@ class ApiseClient
             $options['on_stats'] = function (TransferStats $stats) use ($correlationId) {
                 ApiLog::where('correlation_id', $correlationId)
                     ->update([
-                        'total_time' => number_format($stats->getTransferTime() * 1000)
+                        'total_time' => $stats->getTransferTime() * 1000
                     ]);
             };
         }
