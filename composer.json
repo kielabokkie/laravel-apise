@@ -11,14 +11,14 @@
     ],
     "require": {
         "php": "^7.2",
-        "guzzlehttp/guzzle": "^6.3",
-        "rtheunissen/guzzle-log-middleware": "^0.4.2",
+        "guzzlehttp/guzzle": "^6.3|^7.0",
+        "rtheunissen/guzzle-log-middleware": "^0.4.2|^1.0",
         "ramsey/uuid": "^3.9|^4.0",
         "kielabokkie/laravel-conceal": "^1.1"
     },
     "require-dev": {
-        "laravel/framework": "~5.8.0|^6.0|^7.0",
-        "orchestra/testbench": "^3.7|^4.0|^5.0",
+        "laravel/framework": "~5.8.0|^6.0|^7.0|^8.0",
+        "orchestra/testbench": "^3.7|^4.0|^5.0|^6.0",
         "symfony/var-dumper": "^4.1|^5.0"
     },
     "autoload": {
