@@ -10,14 +10,19 @@ jobs:
       fail-fast: true
       matrix:
         php: [7.2, 7.3, 7.4]
-        laravel: [5.7.*, 6.*, 7.*]
+        laravel: [5.7.*, 6.*, 7.*, 8.*]
         include:
+            - laravel: 8.*
+              testbench: 6.*
             - laravel: 7.*
               testbench: 5.*
             - laravel: 6.*
               testbench: 4.*
             - laravel: 5.7.*
               testbench: 3.7.*
+        exclude:
+            - laravel: 8.*
+              php: 7.2
 
     name: PHP ${{ matrix.php }} / L ${{ matrix.laravel }}
 
@@ -41,6 +46,11 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --prefer-dist --no-interaction --no-suggest
+
+      - name: Install legacy factories for Laravel 8
+        if: matrix.laravel == '8.*'
+        run: |
+          composer require --dev "laravel/legacy-factories:^1.0.4" --no-interaction
 
       - name: Execute tests
         run: vendor/bin/phpunit --coverage-clover clover.xml
