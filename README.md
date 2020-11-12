@@ -15,7 +15,9 @@ Apise for Laravel can be used to simplify creating an API service for integratin
 ## Requirements
 
 * PHP >= 7.2
-* Laravel 5.8 | 6 | 7
+* Laravel 5.8 | 6 | 7 | 8
+
+Note: Laravel 8 requires PHP 7.3
 
 ## Installation
 
